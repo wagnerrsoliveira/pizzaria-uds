@@ -7,9 +7,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import br.com.pizzariauds.dominio.Adicional;
 import br.com.pizzariauds.dominio.Pizza;
 import br.com.pizzariauds.dominio.Sabor;
 import br.com.pizzariauds.dominio.enums.Tamanho;
+import br.com.pizzariauds.repositories.AdicionalRepository;
 import br.com.pizzariauds.repositories.PizzaRepository;
 import br.com.pizzariauds.repositories.SaborRepository;
 
@@ -20,6 +22,8 @@ public class PizzariaUdsApplication implements CommandLineRunner {
 	SaborRepository saborRepository;
 	@Autowired
 	PizzaRepository pizzaRepository;
+	@Autowired
+	AdicionalRepository adicionalRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PizzariaUdsApplication.class, args);
@@ -48,10 +52,16 @@ public class PizzariaUdsApplication implements CommandLineRunner {
 		marguerita.getPizzas().addAll(Arrays.asList(pizzaPMarguerita, pizzaMMarguerita, pizzaGMarguerita));
 		portuguesa.getPizzas().addAll(Arrays.asList(pizzaPPortuguesa, pizzaMPortuguesa, pizzaGPortuguesa));
 
+		Adicional adBacon = new Adicional(null, "Extra bacon", 0, 3.0);
+		Adicional adSemCebola = new Adicional(null, "Sem cebola", 0, 0.0);
+		Adicional adBordaRecheada = new Adicional(null, "Borda recheada", 5, 5.00);
+		
 		saborRepository.saveAll(Arrays.asList(calabresa, marguerita, portuguesa));
 		pizzaRepository.saveAll(Arrays.asList(
 				pizzaPCalabresa, pizzaMCalabresa, pizzaGCalabresa, pizzaPMarguerita, pizzaMMarguerita, pizzaGMarguerita,
 				pizzaPPortuguesa, pizzaMPortuguesa, pizzaGPortuguesa
 		));
+		
+		adicionalRepository.saveAll(Arrays.asList(adBacon,adSemCebola,adBordaRecheada));
 	}
 }

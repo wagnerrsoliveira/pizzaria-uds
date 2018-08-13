@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pizzariauds.dominio.Pizza;
-import br.com.pizzariauds.dominio.Sabor;
 import br.com.pizzariauds.dominio.enums.Tamanho;
 import br.com.pizzariauds.services.PizzaService;
-import br.com.pizzariauds.services.SaborService;
 
 @RestController
 @RequestMapping(value="/pizzas")
@@ -37,4 +35,6 @@ public class PizzaResource {
 		List<Pizza> obj = service.buscar(Tamanho.toEnum(tamanho.toUpperCase()),saborDescrica);
 		return ResponseEntity.ok(obj);
 	}
+	
+	
 }

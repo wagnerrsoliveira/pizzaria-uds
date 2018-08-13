@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import br.com.pizzariauds.dominio.enums.Tamanho;
 
 @Entity
-public class 	Pizza implements Serializable {
+public class Pizza implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
