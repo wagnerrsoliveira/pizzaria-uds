@@ -1,14 +1,19 @@
 package br.com.pizzariauds.dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -22,20 +27,31 @@ public class Pedido implements Serializable {
 	private Integer tempoPreparo;
 	private Double valorTotal;
 
-	private Pizza pizza;
-
-	@OneToMany(mappedBy = "pedido")
+	
 	@JsonManagedReference
-	private List<Adicional> adicionais = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name="pizza_id")
+	@NonNull
+	private Pizza pizza;
+	
+	@JsonManagedReference
+	@ManyToOne
+	@JoinColumn(name="sabor_id")
+	@NonNull
+	private Sabor sabor;
+	
+	@OneToMany(mappedBy="id.pedido")
+	private Set<ItemAdicionalPedido> itensAdicionais = new HashSet<>();
 
 	public Pedido() {
 	}
 
-	public Pedido(Integer id, Integer tempoPreparo, Double valorTotal, Pizza pizza) {
+	public Pedido(Integer id, Integer tempoPreparo, Double valorTotal, Pizza pizza, Sabor sabor) {
 		this.id = id;
 		this.tempoPreparo = tempoPreparo;
 		this.valorTotal = valorTotal;
-		this.pizza = pizza;
+		this.setPizza(pizza);
+		this.setSabor(sabor);
 	}
 
 	public Integer getId() {
@@ -70,12 +86,20 @@ public class Pedido implements Serializable {
 		this.pizza = pizza;
 	}
 
-	public List<Adicional> getAdicionais() {
-		return adicionais;
+	public Sabor getSabor() {
+		return sabor;
 	}
 
-	public void setAdicionais(List<Adicional> adicionais) {
-		this.adicionais = adicionais;
+	public void setSabor(Sabor sabor) {
+		this.sabor = sabor;
+	}
+
+	public Set<ItemAdicionalPedido> getItensAdicionais() {
+		return itensAdicionais;
+	}
+
+	public void setItensAdicionais(Set<ItemAdicionalPedido> itensAdicionais) {
+		this.itensAdicionais = itensAdicionais;
 	}
 
 	@Override
@@ -101,6 +125,10 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Double somaValorTotal() {
+		return 0.0;
 	}
 
 }

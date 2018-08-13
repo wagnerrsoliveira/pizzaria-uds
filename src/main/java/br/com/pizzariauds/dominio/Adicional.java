@@ -1,34 +1,28 @@
 package br.com.pizzariauds.dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Adicional implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
 	private Integer tempoAdicional;
 	private Double valorAdicional;
-	
-	@ManyToMany
-	@JoinColumn(name="pedido_id")
-	@JsonBackReference
-	private List<Pedido> pedidos = new ArrayList<>();
+
+	@OneToMany(mappedBy="id.adicional")
+	private Set<ItemAdicionalPedido> itensAdicionais = new HashSet<>();
 
 	public Adicional() {
 	}
@@ -71,13 +65,13 @@ public class Adicional implements Serializable {
 	public void setValorAdicional(Double valorAdicional) {
 		this.valorAdicional = valorAdicional;
 	}
-	
-	public List<Pedido> getPedidos() {
-		return pedidos;
+
+	public Set<ItemAdicionalPedido> getItensAdicionais() {
+		return itensAdicionais;
 	}
 
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
+	public void setItensAdicionais(Set<ItemAdicionalPedido> itensAdicionais) {
+		this.itensAdicionais = itensAdicionais;
 	}
 
 	@Override
@@ -104,7 +98,5 @@ public class Adicional implements Serializable {
 			return false;
 		return true;
 	}
-
-
 
 }

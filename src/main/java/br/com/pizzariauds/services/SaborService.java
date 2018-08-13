@@ -17,13 +17,13 @@ public class SaborService {
 	SaborRepository saborRepo;
 
 	public Sabor buscar(Integer id) {
-		Optional<Sabor> obj = saborRepo.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		Optional<Sabor> sabor = saborRepo.findById(id);
+		return sabor.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Sabor.class.getName()));
 	}
 
-	public List<Sabor> buscar(String descricao) {
-		List<Sabor> sabores = saborRepo.find(descricao.toUpperCase());
+	public List<Sabor> buscarTodos() {
+		List<Sabor> sabores = saborRepo.findAll();
 		return sabores;
 	}
 }

@@ -1,43 +1,44 @@
 package br.com.pizzariauds.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import br.com.pizzariauds.dominio.enums.Tamanho;
 
 @Entity
 public class Pizza implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String tamanho;
 	private Double valor;
 	private Integer tempoDePreparo;
 
-	@ManyToOne
-	@JoinColumn(name="sabor_id")
-	@JsonManagedReference
-	private Sabor sabor;
+	@JsonBackReference
+	@OneToMany
+	@JoinColumn(name = "pedido_id")	
+	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Pizza() {
 	}
 
-	public Pizza(Integer id, Tamanho tamanho, Double valor, Integer tempoDePreparo, Sabor sabor) {
+	public Pizza(Integer id, Tamanho tamanho, Double valor, Integer tempoDePreparo) {
 		this.id = id;
 		this.tamanho = tamanho.getId();
 		this.valor = valor;
 		this.tempoDePreparo = tempoDePreparo;
-		this.sabor = sabor;
 	}
 
 	public Integer getId() {
@@ -72,12 +73,12 @@ public class Pizza implements Serializable {
 		this.tempoDePreparo = tempoDePreparo;
 	}
 
-	public Sabor getSabor() {
-		return sabor;
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
-	public void setSabor(Sabor sabor) {
-		this.sabor = sabor;
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	@Override

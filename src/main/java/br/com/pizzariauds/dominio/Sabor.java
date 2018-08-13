@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -22,10 +23,11 @@ public class Sabor implements Serializable {
 	private String descricao;
 	private Integer tempoAdicional;
 
-	@OneToMany(mappedBy="sabor")
 	@JsonBackReference
-	private List<Pizza> pizzas = new ArrayList<>();
-
+	@OneToMany
+	@JoinColumn(name = "pedido_id")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Sabor() {
 	}
 
@@ -58,15 +60,16 @@ public class Sabor implements Serializable {
 	public void setTempoAdicional(Integer tempoAdicional) {
 		this.tempoAdicional = tempoAdicional;
 	}
-
-	public List<Pizza> getPizzas() {
-		return pizzas;
+	
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
-	public void setPizzas(List<Pizza> pizzas) {
-		this.pizzas = pizzas;
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

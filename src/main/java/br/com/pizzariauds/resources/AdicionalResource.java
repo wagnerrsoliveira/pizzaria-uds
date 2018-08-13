@@ -1,5 +1,7 @@
 package br.com.pizzariauds.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,5 +24,12 @@ public class AdicionalResource {
 
 		Adicional obj = service.buscar(id);
 		return ResponseEntity.ok(obj);
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ResponseEntity<List<Adicional>> findAll() {
+
+		List<Adicional> adicionais = service.buscarTodos();
+		return ResponseEntity.ok(adicionais);
 	}
 }
